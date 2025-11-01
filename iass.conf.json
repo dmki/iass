@@ -1,0 +1,11 @@
+{
+  "directoryScanInterval": 30,
+  "features": {
+    "directoryScan": true,
+    "mkdir": true,
+    "killproc": true,
+    "unlock": true,
+    "findText": true,
+    "findFile": true
+  }
+}
