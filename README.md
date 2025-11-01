@@ -246,6 +246,19 @@ The compiled executable will be available at:
 - Debug: `bin/Debug/net9.0/IAss.exe`
 - Release: `bin/Release/net9.0/IAss.exe`
 
+## Manual installation (when installer is not present or too much hassle)
+
+1. Ensure the directory with iass.exe is in system-wide PATH
+2. Create environment variable MSYS_NO_PATHCONV and set its value to 1
+(this disables git bash conversion of "/" command line parameters to fully qualified directory names. In other words, now you can use "/" in command line parameters)
+3. Create skills directory in your %userprofile%\.claude directory.
+4. In skills directory, create "iass-helper" directory.
+5. Copy "skill.md" file from this project / release archive to iass-helper directory.
+6. Copy "iass.md" file to your %userprofile%\.claude\commands directory. This will enable the "/iass" command in Claude Code.
+7. Execute iass.exe to ensure it can run. It might ask for .NET 9 runtime if it's not installed.
+
+Then, in new session of Claude Code in new terminal session, check that you have /iass command. Run it, then ask Claude Code to create new directory. It should execute "iass.exe /mkdir [directory name]" instead of PowerShell / bash command. If directory can't be created - check the output. If output is simple iass' help, it means you didn't set up the environment variable. But if the directory was created, the assistant is functional and ready to serve.
+
 ## Development Modes
 
 When working with the project using `dotnet run`:
