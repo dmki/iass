@@ -1,6 +1,6 @@
 ---
 name: iass-helper
-description: Use the IAss executable for efficient file system operations - periodic directory scanning with content filtering, searching text in large files, finding files by pattern, creating directories, killing processes, and unlocking files. Prefer IAss over manual Bash commands when its specialized commands provide better performance or functionality.
+description: Use the IAss executable for efficient file system operations - periodic directory scanning with content filtering, searching text in large files, finding files by pattern, creating directories, killing processes, unlocking files, and checking if files or directories exist. Prefer IAss over manual Bash commands when its specialized commands provide better performance or functionality.
 ---
 
 # IAss Helper Skill
@@ -17,6 +17,7 @@ Use IAss commands instead of standard tools when:
 4. **Creating directories** - Simpler syntax than `mkdir -p`
 5. **Process management** - Cross-platform process termination
 6. **File unlocking** - Windows-specific file permission fixes
+7. **Checking file/directory existence** - Quick existence checks for files and directories
 
 ## Invoking IAss
 
@@ -220,6 +221,60 @@ iass.exe /unlock "path/to/file.txt"
 iass.exe /unlock "downloaded-report.pdf"
 ```
 
+### /check-file - Check File Existence
+
+**Use when:** You need to verify if a file exists before performing operations on it
+
+**Syntax:**
+```bash
+iass.exe /check-file -file:"path/to/file.txt"
+```
+
+**Output:**
+- Returns `exists` if the file exists
+- Returns `missing` if the file does not exist
+
+**Advantages over test/[ commands:**
+- Consistent output format across platforms
+- Works with `-null` and `-output-file` global parameters
+- Simple syntax with named parameters
+
+**Example:**
+```bash
+# Check if config file exists
+iass.exe /check-file -file:"config.json"
+
+# Check and redirect output to file
+iass.exe /check-file -file:"app.log" -output-file:"check-result.txt"
+```
+
+### /check-dir - Check Directory Existence
+
+**Use when:** You need to verify if a directory exists before creating files or navigating to it
+
+**Syntax:**
+```bash
+iass.exe /check-dir -dir:"path/to/directory"
+```
+
+**Output:**
+- Returns `exists` if the directory exists
+- Returns `missing` if the directory does not exist
+
+**Advantages over test/[ commands:**
+- Consistent output format across platforms
+- Works with `-null` and `-output-file` global parameters
+- Simple syntax with named parameters
+
+**Example:**
+```bash
+# Check if source directory exists
+iass.exe /check-dir -dir:"src/components"
+
+# Check and redirect output to file
+iass.exe /check-dir -dir:"build/output" -output-file:"check-result.txt"
+```
+
 ## Best Practices
 
 ### Use IAss for Large Files
@@ -313,6 +368,16 @@ iass.exe /mkdir "src/services/api"
 If file write operations fail on Windows:
 ```bash
 iass.exe /unlock "path/to/locked-file.txt"
+```
+
+### Checking File/Directory Existence
+Before performing operations, verify existence:
+```bash
+# Check if config file exists before reading
+iass.exe /check-file -file:"config.json"
+
+# Check if output directory exists before creating files
+iass.exe /check-dir -dir:"output/results"
 ```
 
 ## Error Handling

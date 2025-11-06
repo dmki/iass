@@ -1,1 +1,2 @@
-Invoke the iass-helper skill to enable IAss commands for this session.
+# Load skill(s) for this session
+Invoke the iass-helper skill to enable IAss commands for this session. Don't output much about it to console, simply report that skill is loaded. When invoking sub-agents, instruct them to use this skill too.

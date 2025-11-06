@@ -23,6 +23,7 @@ class Program
             switch (command)
             {
                 case "/scandir":
+                case "--scandir":
                     {
                         var parameters = ParseNamedParameters(remainingArgs);
 
@@ -39,6 +40,7 @@ class Program
                     break;
 
                 case "/mkdir":
+                case "--mkdir":
                     if (remainingArgs.Length > 0)
                     {
                         var mkdirCmd = new MkdirCommand(configManager);
@@ -51,6 +53,7 @@ class Program
                     break;
 
                 case "/killproc":
+                case "--killproc":
                     if (remainingArgs.Length > 0)
                     {
                         var killProcCmd = new KillProcCommand(configManager);
@@ -63,6 +66,7 @@ class Program
                     break;
 
                 case "/unlock":
+                case "--unlock":
                     if (remainingArgs.Length > 0)
                     {
                         var unlockCmd = new UnlockCommand(configManager);
@@ -75,6 +79,7 @@ class Program
                     break;
 
                 case "/find-text":
+                case "--find-text":
                     {
                         var parameters = ParseNamedParameters(remainingArgs);
                         if (parameters.ContainsKey("file") && parameters.ContainsKey("string"))
@@ -90,6 +95,7 @@ class Program
                     break;
 
                 case "/find-file":
+                case "--find-file":
                     {
                         var parameters = ParseNamedParameters(remainingArgs);
                         if (parameters.ContainsKey("filemask"))
@@ -104,6 +110,45 @@ class Program
                         {
                             OutputManager.WriteLine("Usage: iass.exe /find-file -filemask:\"*.txt\" [-string:\"something\"] [-depth:0]");
                         }
+                    }
+                    break;
+                case "/check-file":
+                case "--check-file":
+                    {
+                        var parameters = ParseNamedParameters(remainingArgs);
+                        if (parameters.ContainsKey("file"))
+                        {
+                            var checkFileCmd = new CheckFileCommand(configManager);
+                            checkFileCmd.Execute(parameters["file"]);
+                        }
+                        else
+                        {
+                            OutputManager.WriteLine("Usage: iass.exe /check-file -file:\"myfile.txt\"");
+                        }
+                    }
+                    break;
+
+                case "/check-dir":
+                case "--check-dir":
+                    {
+                        var parameters = ParseNamedParameters(remainingArgs);
+                        if (parameters.ContainsKey("dir"))
+                        {
+                            var checkDirCmd = new CheckDirCommand(configManager);
+                            checkDirCmd.Execute(parameters["dir"]);
+                        }
+                        else
+                        {
+                            OutputManager.WriteLine("Usage: iass.exe /check-dir -dir:\"mydir\"");
+                        }
+                    }
+                    break;
+
+                case "/datetime":
+                case "--datetime":
+                    {
+                        var dateTimeCmd = new DateTimeCommand(configManager);
+                        dateTimeCmd.Execute();
                     }
                     break;
 
@@ -213,6 +258,14 @@ class Program
         OutputManager.WriteLine("  /find-file -filemask:\"*.txt\" [-string:\"something\"] [-depth:0]");
         OutputManager.WriteLine("                              - Find files by mask, optionally filter by content. Output is bare list of files with full paths.");
         OutputManager.WriteLine();
+        OutputManager.WriteLine("  /check-file -file:\"myfile.txt\"");
+        OutputManager.WriteLine("                              - Checks if file exists, returns \"exists\" or \"missing\" text message.");
+        OutputManager.WriteLine();
+        OutputManager.WriteLine("  /check-dir -dir:\"mydir\"");
+        OutputManager.WriteLine("                              - Checks if directory exists, returns \"exists\" or \"missing\" text message.");
+        OutputManager.WriteLine();
+        OutputManager.WriteLine("  /datetime                   - Returns current UTC date and time in ISO 8601 format (yyyy-MM-ddTHH:mm:ssZ).");
+        OutputManager.WriteLine();
         OutputManager.WriteLine("Global parameters (can be used with any command):");
         OutputManager.WriteLine("  -null                       - Suppress all output");
         OutputManager.WriteLine("  -output-file:\"file.txt\"     - Redirect all output to file");
@@ -224,5 +277,8 @@ class Program
         OutputManager.WriteLine("  iass.exe /find-file -filemask:\"*.cs\" -string:\"class Program\" -depth:2");
         OutputManager.WriteLine("  iass.exe /find-text -file:\"app.log\" -string:\"ERROR\" -output-file:\"errors.txt\"");
         OutputManager.WriteLine("  iass.exe /mkdir \"new/folder\" -null");
+        OutputManager.WriteLine("  iass.exe /killproc notepad.exe");
+        OutputManager.WriteLine("  iass.exe /check-file -file:\"codefile.cs\"");
+        OutputManager.WriteLine("  iass.exe /check-dir -dir:\"src/components\"");
     }
 }

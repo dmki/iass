@@ -30,5 +30,14 @@ namespace IAss
 
         [JsonPropertyName("findFile")]
         public bool FindFile { get; set; } = true;
+
+        [JsonPropertyName("checkFile")]
+        public bool CheckFile { get; set; } = true;
+
+        [JsonPropertyName("checkDir")]
+        public bool CheckDir { get; set; } = true;
+
+        [JsonPropertyName("dateTime")]
+        public bool DateTime { get; set; } = true;
     }
 }

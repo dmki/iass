@@ -10,6 +10,7 @@ The IAss Helper skill enables Claude Code to:
 - Create directories
 - Terminate processes
 - Unlock files (Windows)
+- Check if files or directories exist
 
 ## Prerequisites
 
@@ -166,7 +167,9 @@ Check `iass.conf.json` in the IAss executable directory and ensure the relevant 
     "findFile": true,
     "mkdir": true,
     "killproc": true,
-    "unlock": true
+    "unlock": true,
+    "checkFile": true,
+    "checkDir": true
   }
 }
 ```

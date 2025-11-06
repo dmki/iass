@@ -16,6 +16,8 @@ IAss provides the following core utilities:
 - **File Unlocking** (`/unlock`): Unblock files that cannot be written to
 - **Text Search** (`/find-text`): Search for text patterns within a single file
 - **File Search** (`/find-file`): Search for files by name pattern with optional content filtering
+- **File Existence Check** (`/check-file`): Check if a file exists and return "exists" or "missing"
+- **Directory Existence Check** (`/check-dir`): Check if a directory exists and return "exists" or "missing"
 
 All features can be enabled/disabled via `iass.conf.json`, and most support global output control parameters.
 
@@ -154,6 +156,50 @@ iass.exe /find-file -filemask:"*.cs" -string:"class Program" -depth:2
 iass.exe /find-file -filemask:"*.log" -string:"WARNING" -output-file:"warnings.txt"
 ```
 
+### Check File Existence (/check-file)
+
+Check if a file exists and return "exists" or "missing".
+
+**Syntax:**
+```bash
+iass.exe /check-file -file:"path/to/file.txt"
+```
+
+**Parameters:**
+- `-file`: Path to the file to check (required)
+
+**Output:**
+- Returns "exists" if the file exists
+- Returns "missing" if the file does not exist
+
+**Examples:**
+```bash
+iass.exe /check-file -file:"config.json"
+iass.exe /check-file -file:"D:\path\to\file.txt" -output-file:"check-result.txt"
+```
+
+### Check Directory Existence (/check-dir)
+
+Check if a directory exists and return "exists" or "missing".
+
+**Syntax:**
+```bash
+iass.exe /check-dir -dir:"path/to/directory"
+```
+
+**Parameters:**
+- `-dir`: Path to the directory to check (required)
+
+**Output:**
+- Returns "exists" if the directory exists
+- Returns "missing" if the directory does not exist
+
+**Examples:**
+```bash
+iass.exe /check-dir -dir:"src/components"
+iass.exe /check-dir -dir:"D:\path\to\dir" -output-file:"check-result.txt"
+```
+
 ### Global Parameters
 
 All commands support the following global parameters:
@@ -181,7 +227,9 @@ The application uses `iass.conf.json` for configuration, located in the applicat
     "killproc": true,
     "unlock": true,
     "findText": true,
-    "findFile": true
+    "findFile": true,
+    "checkFile": true,
+    "checkDir": true
   }
 }
 ```
@@ -195,6 +243,8 @@ The application uses `iass.conf.json` for configuration, located in the applicat
   - `unlock`: Enable `/unlock` command
   - `findText`: Enable `/find-text` command
   - `findFile`: Enable `/find-file` command
+  - `checkFile`: Enable `/check-file` command
+  - `checkDir`: Enable `/check-dir` command
 
 ### File Filtering for Directory Scanning
 
@@ -282,6 +332,8 @@ dotnet run -- /killproc [id or name]
 dotnet run -- /unlock [file name]
 dotnet run -- /find-text -file:"myfile.txt" -string:"something"
 dotnet run -- /find-file -filemask:"*.txt" -string:"something" -depth:0
+dotnet run -- /check-file -file:"myfile.txt"
+dotnet run -- /check-dir -dir:"mydir"
 ```
 
 ## Dependencies
